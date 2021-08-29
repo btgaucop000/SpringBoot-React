@@ -7,20 +7,28 @@ export default class ListEmployeeComponent extends Component {
 
         this.state = {
             employees: []
-        }
+        };
+        this.addEmployee = this.addEmployee.bind(this);
     }
 
     componentDidMount() {
         EmployeeService.getEmployees().then(res => {
-            this.setState({ employees: res.data })
+            this.setState({ employees: res.data });
         })
+    }
+
+    addEmployee() {
+        this.props.history.push('add-employee');
     }
 
     render() {
         return (
             <div>
                 <h2 className="text-center">Employee List</h2>
-                <div className="row">
+                <div>
+                    <button className="btn btn-primary" onClick={this.addEmployee}>Add Employee</button>
+                </div>
+                <div>
                     <table className="table table-striped table-bordered">
                         <thead>
                             <tr>
@@ -29,20 +37,20 @@ export default class ListEmployeeComponent extends Component {
                                 <th>Email Address</th>
                                 <th>Actions</th>
                             </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    this.state.employees.map(
-                                        employee =>
+                        </thead>
+                        <tbody>
+                            {
+                                this.state.employees.map(
+                                    employee =>
                                         <tr key={employee.id}>
                                             <td>{employee.firstName}</td>
                                             <td>{employee.lastName}</td>
                                             <td>{employee.mailAddress}</td>
                                             <td></td>
                                         </tr>
-                                    )
-                                }
-                            </tbody>
+                                )
+                            }
+                        </tbody>
                     </table>
                 </div>
             </div>
