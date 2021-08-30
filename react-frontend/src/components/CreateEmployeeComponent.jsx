@@ -23,11 +23,11 @@ export default class CreateEmployeeComponent extends Component {
     onSubmit(e) {
         e.preventDefault();
         EmployeeService.createEmployee(this.state).then(() => {
-            this.props.history.push('employees');
+            this.props.history.push('/employees');
         })
     }
     onCancel() {
-        this.props.history.push('employees');
+        this.props.history.push('/employees');
     }
     render() {
         return (
@@ -55,7 +55,7 @@ export default class CreateEmployeeComponent extends Component {
                                     </div>
                                     <div className="text-center">
                                         <button className="btn btn-success" onClick={this.onSubmit}>Save</button>
-                                        <button className="btn btn-outline-secondary" onClick={this.onCancel} style={{marginLeft: "15px"}}>Cancel</button>
+                                        <button type="button" className="btn btn-outline-secondary" onClick={this.onCancel} style={{marginLeft: "15px"}}>Cancel</button>
                                     </div>
                                 </form>
                             </div>

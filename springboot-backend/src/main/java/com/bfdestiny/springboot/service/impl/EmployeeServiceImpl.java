@@ -1,5 +1,6 @@
 package com.bfdestiny.springboot.service.impl;
 
+import com.bfdestiny.springboot.exception.ResourceNotFoundException;
 import com.bfdestiny.springboot.model.Employee;
 import com.bfdestiny.springboot.repository.EmployeeRepository;
 import com.bfdestiny.springboot.service.EmployeeService;
@@ -22,5 +23,21 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee saveEmployee(Employee employee) {
         return employeeRepository.save(employee);
+    }
+
+    @Override
+    public Employee getEmployeeById(Long id) {
+        return employeeRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Employee not exist with id: " + id));
+    }
+
+    @Override
+    public Employee updateEmployee(Long id, Employee employee) {
+        Employee currentEmployee = employeeRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Employee not exist with id: " + id));
+        currentEmployee.setFirstName(employee.getFirstName());
+        currentEmployee.setLastName(employee.getLastName());
+        currentEmployee.setMailAddress(employee.getMailAddress());
+        return employeeRepository.save(currentEmployee);
     }
 }

@@ -3,6 +3,7 @@ package com.bfdestiny.springboot.controller;
 import com.bfdestiny.springboot.model.Employee;
 import com.bfdestiny.springboot.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,5 +26,19 @@ public class EmployeeController {
     @PostMapping("/employees")
     public Employee createEmployee(@RequestBody Employee employee) {
         return employeeService.saveEmployee(employee);
+    }
+
+    //get employee by id api
+    @GetMapping("/employees/{id}")
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
+        Employee employee = employeeService.getEmployeeById(id);
+        return ResponseEntity.ok(employee);
+    }
+
+    //update employee api
+    @PutMapping("/employees/{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
+        Employee updatedEmployee = employeeService.updateEmployee(id, employee);
+        return ResponseEntity.ok(updatedEmployee);
     }
 }
