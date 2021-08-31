@@ -10,6 +10,8 @@ export default class ListEmployeeComponent extends Component {
         };
         this.addEmployee = this.addEmployee.bind(this);
         this.editEmployee = this.editEmployee.bind(this);
+        this.deleteEmployee = this.deleteEmployee.bind(this);
+        this.viewEmployee = this.viewEmployee.bind(this);
     }
 
     componentDidMount() {
@@ -19,11 +21,21 @@ export default class ListEmployeeComponent extends Component {
     }
 
     addEmployee() {
-        this.props.history.push('add-employee');
+        this.props.history.push('/add-employee/_add');
     }
 
     editEmployee(id) {
-        this.props.history.push(`update-employee/${id}`)
+        this.props.history.push(`/add-employee/${id}`)
+    }
+
+    deleteEmployee(id) {
+        EmployeeService.deleteEmployee(id).then(res => {
+            this.componentDidMount();
+        })
+    }
+
+    viewEmployee(id) {
+        this.props.history.push(`/view-employee/${id}`)
     }
 
     render() {
@@ -31,7 +43,7 @@ export default class ListEmployeeComponent extends Component {
             <div>
                 <h2 className="text-center">Employee List</h2>
                 <div>
-                    <button className="btn btn-primary" onClick={this.addEmployee}>Add Employee</button>
+                    <button className="btn btn-success" onClick={this.addEmployee}>Add Employee</button>
                 </div>
                 <div>
                     <table className="table table-striped table-bordered">
@@ -40,7 +52,7 @@ export default class ListEmployeeComponent extends Component {
                                 <th>First Name</th>
                                 <th>Last Name</th>
                                 <th>Email Address</th>
-                                <th>Actions</th>
+                                <th className="text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,9 +63,13 @@ export default class ListEmployeeComponent extends Component {
                                             <td>{employee.firstName}</td>
                                             <td>{employee.lastName}</td>
                                             <td>{employee.mailAddress}</td>
-                                            <td>
-                                                <button onClick={() => this.editEmployee(employee.id)} 
-                                                    className="btn btn-info">Update</button>
+                                            <td className="text-center">
+                                                <button onClick={() => this.editEmployee(employee.id)}
+                                                    className="btn btn-primary" style={{ marginRight: "15px" }}>Update</button>
+                                                <button onClick={() => this.viewEmployee(employee.id)}
+                                                    className="btn btn-info" style={{ marginRight: "15px" }}>View</button>
+                                                <button onClick={() => this.deleteEmployee(employee.id)}
+                                                    className="btn btn-danger">Delete</button>
                                             </td>
                                         </tr>
                                 )
