@@ -40,4 +40,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         currentEmployee.setMailAddress(employee.getMailAddress());
         return employeeRepository.save(currentEmployee);
     }
+
+    @Override
+    public void deleteEmployee(Long id) {
+        Employee currentEmployee = employeeRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Employee not exist with id: " + id));
+        employeeRepository.delete(currentEmployee);
+    }
 }
